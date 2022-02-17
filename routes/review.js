@@ -15,6 +15,7 @@ router.get("/", async (req, res) => {
 router.post("/create", async (req, res) => {
     try {
         const { course_id, rating, comment } = req.body;
+        const { user_id } = req.query;
 
         let count_course = course.count({
             where: {
@@ -27,7 +28,7 @@ router.post("/create", async (req, res) => {
         }
 
         let new_review = await review.create({
-            user_id: req.user.user_id,
+            user_id,
             course_id,
             rating,
             comment
