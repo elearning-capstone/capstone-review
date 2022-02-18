@@ -4,8 +4,16 @@ const { review } = require("../models");
 
 router.get("/", async (req, res) => {
     try {
-        return review.findAll({
-            attributes: [ 'id', 'user_id', 'course_id', 'rating', 'comment' ],
+        const { course_id } = req.query;
+
+        let reviews = await review.findAll({
+            where: {
+                course_id: course_id
+            },
+        });
+
+        return res.json({
+            review: reviews,
         });
     } catch(err) {
         return res.status(404).json({ message: "not found" });
@@ -14,19 +22,9 @@ router.get("/", async (req, res) => {
 
 router.post("/create", async (req, res) => {
     try {
+        const { user_id, course_id } = req.query;
         const { course_id, rating, comment } = req.body;
-        const { user_id } = req.query;
-
-        let count_course = course.count({
-            where: {
-                id: course_id,
-            }
-        });
-
-        if (await count_course == 0) {
-            return res.status(404).json({ message: "course not found" });
-        }
-
+        
         let new_review = await review.create({
             user_id,
             course_id,
