@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 router.post("/create", async (req, res) => {
     try {
         const { user_id, course_id } = req.query;
-        const { course_id, rating, comment } = req.body;
+        const { rating, comment } = req.body;
         
         let new_review = await review.create({
             user_id,
