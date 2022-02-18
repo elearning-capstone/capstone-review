@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.post("/create", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const { user_id, course_id } = req.query;
         const { rating, comment } = req.body;
